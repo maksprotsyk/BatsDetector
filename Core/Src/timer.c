@@ -1,8 +1,6 @@
 /*
  * timer.c
  *
- *  Created on: Nov 1, 2020
- *      Author: mprotsyk
  */
 #include "timer.h"
 
