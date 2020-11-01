@@ -1,0 +1,3 @@
+timer.c:9:6:mydelay	16	static
+timer.c:16:6:restart_timer	16	static
+timer.c:21:10:get_timer	16	static
