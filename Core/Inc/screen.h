@@ -8,18 +8,9 @@
 
 #include "stm32f4xx_hal.h"
 #include "timer.h"
+#include "pins.h"
 
-// defining pins for data
-#define Data_Port GPIOD
-#define D4_PIN GPIO_PIN_8
-#define D5_PIN GPIO_PIN_9
-#define D6_PIN GPIO_PIN_10
-#define D7_PIN GPIO_PIN_11
 
-//defining rs and e pins
-#define RS_Pin GPIO_PIN_0
-#define Write_Port GPIOE
-#define Write_Pin GPIO_PIN_1
 
 #define MaxSize 32;
 

@@ -1,8 +1,6 @@
 /*
  * timer.h
  *
- *  Created on: Nov 1, 2020
- *      Author: mprotsyk
  */
 
 #ifndef INC_TIMER_H_

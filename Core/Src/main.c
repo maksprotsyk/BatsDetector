@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "timer.h"
 #include "screen.h"
+#include "range_finder.h"
 //#include "screen.h"
 
 /* USER CODE END Includes */
@@ -102,31 +103,25 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  //int impulse = impulse_time(&htim1);
+  //HAL_Delay(1000);
+  int impulse = impulse_time(&htim1);
   while (1)
   {
 
+	if (check_ultrasound(impulse, &htim1)){
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+		HAL_Delay(1000);
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_Delay(1000);
+	 //while (HAL_GPIO_ReadPin(RangePort, EchoPin) == GPIO_PIN_SET){
+	//	 HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+	//	 HAL_Delay(1000);
+	//	 HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
 
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
-    mydelay(16, &htim1);
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-
-    while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2) == GPIO_PIN_RESET );
-    {}
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-    restart_timer(&htim1);
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-    while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2) == GPIO_PIN_SET );
-    {}
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-    uint16_t pulse_time = get_timer(&htim1);
-    float distance = (343. / 20000.) * pulse_time;
 
   }
   /* USER CODE END 3 */

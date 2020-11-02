@@ -26,7 +26,7 @@ Core/Src/screen.o: ../Core/Src/screen.c ../Core/Inc/screen.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- ../Core/Inc/timer.h
+ ../Core/Inc/timer.h ../Core/Inc/pins.h
 
 ../Core/Inc/screen.h:
 
@@ -85,3 +85,5 @@ Core/Src/screen.o: ../Core/Src/screen.c ../Core/Inc/screen.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 
 ../Core/Inc/timer.h:
+
+../Core/Inc/pins.h:
