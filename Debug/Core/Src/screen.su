@@ -1,5 +1,1 @@
-screen.c:9:6:send_half_byte	16	static
-screen.c:38:6:send_byte	16	static
-screen.c:43:6:send_char	16	static
-screen.c:48:6:command	16	static
-screen.c:54:5:write	24	static
+screen.c:9:5:initialise_LCD	32	static

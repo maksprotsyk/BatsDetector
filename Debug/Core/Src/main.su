@@ -1,6 +1,9 @@
-main.c:76:5:main	16	static
-main.c:137:6:SystemClock_Config	88	static
-main.c:182:13:MX_SPI2_Init	8	static
-main.c:220:13:MX_TIM1_Init	32	static
-main.c:266:13:MX_GPIO_Init	48	static
-main.c:328:6:Error_Handler	4	static
+lcd5110.h:74:20:LCD5110_clear_scr	16	static
+lcd5110.h:91:20:LCD5110_set_cursor	24	static
+lcd5110.h:115:20:LCD5110_print	24	static
+main.c:77:5:main	16	static
+main.c:163:6:SystemClock_Config	88	static
+main.c:208:13:MX_SPI2_Init	8	static
+main.c:246:13:MX_TIM1_Init	32	static
+main.c:292:13:MX_GPIO_Init	48	static
+main.c:354:6:Error_Handler	4	static

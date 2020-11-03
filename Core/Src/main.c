@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "timer.h"
 #include "screen.h"
+#include "lcd5110.h"
 #include "range_finder.h"
 //#include "screen.h"
 
@@ -66,7 +67,7 @@ extern void initialise_monitor_handles();
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//LCD5110_display lcd1;
+LCD5110_display lcd1;
 /* USER CODE END 0 */
 
 /**
@@ -104,7 +105,16 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start(&htim1);
+  initialise_LCD(&lcd1, &hspi2);
+
+  LCD5110_print("Starting!\n", BLACK, &lcd1);
+  HAL_Delay(1000);
   float impulse = impulse_time(&htim1);
+  int distance = (int) distance_with_time(impulse);
+  LCD5110_clear_scr(&lcd1);
+  LCD5110_set_cursor(0, 0, &lcd1);
+  LCD5110_printf(&lcd1, BLACK, "Current dist.\n is %d cm\n", distance);
+  HAL_Delay(1000);
 
   /* USER CODE END 2 */
 
@@ -117,11 +127,27 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	if (check_ultrasound(impulse, &htim1)){
 		HAL_GPIO_WritePin(LED_Port, Blue_Pin, GPIO_PIN_SET);
+		LCD5110_clear_scr(&lcd1);
+		LCD5110_set_cursor(0, 0, &lcd1);
+		LCD5110_printf(&lcd1, BLACK, "Current dist.\n is %d cm\n", distance);
+		LCD5110_print("Ultrasound\n detected!\n", BLACK, &lcd1);
+		HAL_Delay(500);
+		LCD5110_clear_scr(&lcd1);
+		LCD5110_set_cursor(0, 0, &lcd1);
+		LCD5110_printf(&lcd1, BLACK, "Current dist.\n is %d cm\n", distance);
 		HAL_Delay(100);
 	}
+
 	if (HAL_GPIO_ReadPin(Button_Port, Button_Pin) == GPIO_PIN_SET){
-		HAL_Delay(200);
+		LCD5110_clear_scr(&lcd1);
+		LCD5110_set_cursor(0, 0, &lcd1);
+		LCD5110_print("Recalibrating...\n", BLACK, &lcd1);
+		HAL_Delay(1000);
 		impulse = impulse_time(&htim1);
+		distance = (int) distance_with_time(impulse);
+		LCD5110_clear_scr(&lcd1);
+		LCD5110_set_cursor(0, 0, &lcd1);
+		LCD5110_printf(&lcd1, BLACK, "Current dist.\n is %d cm\n", distance);
 	}
 	HAL_GPIO_WritePin(LED_Port, Blue_Pin, GPIO_PIN_RESET);
 
@@ -274,16 +300,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, CE_Pin|DC_Pin|RST_Pin|DIN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, CE_Pin|DC_Pin|RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, Trig_Pin|CLK_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Trig_GPIO_Port, Trig_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : CE_Pin DC_Pin RST_Pin DIN_Pin */
-  GPIO_InitStruct.Pin = CE_Pin|DC_Pin|RST_Pin|DIN_Pin;
+  /*Configure GPIO pins : CE_Pin DC_Pin RST_Pin */
+  GPIO_InitStruct.Pin = CE_Pin|DC_Pin|RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -295,12 +321,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Button1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : Trig_Pin CLK_Pin */
-  GPIO_InitStruct.Pin = Trig_Pin|CLK_Pin;
+  /*Configure GPIO pin : Trig_Pin */
+  GPIO_InitStruct.Pin = Trig_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(Trig_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Echo_Pin */
   GPIO_InitStruct.Pin = Echo_Pin;

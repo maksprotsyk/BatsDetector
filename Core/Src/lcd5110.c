@@ -8,7 +8,7 @@
 //#include "stm32f30x_gpio.h"
 //#include "stm32f30x_spi.h"
 
-#include "font6x8.h"	  // øðèôò
+#include "font6x8.h"	  // ï¿½ï¿½ï¿½ï¿½ï¿½
 
 #include <limits.h>
 #include <math.h>
@@ -24,11 +24,11 @@ const LCD5110_canvas_t lcd5110_def_scr = {
 };
 
 
-inline int LCD5110_max(int a, int b) {
+static inline int LCD5110_max(int a, int b) {
 	return a > b ? a : b;
 }
 
-inline int LCD5110_min(int a, int b) {
+static inline int LCD5110_min(int a, int b) {
 	return a < b ? a : b;
 }
 

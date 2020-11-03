@@ -14,6 +14,8 @@
 
 int impulse_time(TIM_HandleTypeDef* timer);
 
+float distance_with_time(int time);
+
 float calculate_distance(TIM_HandleTypeDef* timer);
 
 

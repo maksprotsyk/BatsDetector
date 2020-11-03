@@ -27,8 +27,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- ../Core/Inc/timer.h ../Core/Inc/screen.h ../Core/Inc/timer.h \
- ../Core/Inc/pins.h ../Core/Inc/range_finder.h
+ ../Core/Inc/timer.h ../Core/Inc/screen.h ../Core/Inc/lcd5110.h \
+ ../Core/Inc/lcd5110_ll.h ../Core/Inc/lcd5110_hal.h ../Core/Inc/pins.h \
+ ../Core/Inc/lcd5110.h ../Core/Inc/range_finder.h ../Core/Inc/timer.h
 
 ../Core/Inc/main.h:
 
@@ -92,8 +93,16 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 
 ../Core/Inc/screen.h:
 
-../Core/Inc/timer.h:
+../Core/Inc/lcd5110.h:
+
+../Core/Inc/lcd5110_ll.h:
+
+../Core/Inc/lcd5110_hal.h:
 
 ../Core/Inc/pins.h:
 
+../Core/Inc/lcd5110.h:
+
 ../Core/Inc/range_finder.h:
+
+../Core/Inc/timer.h:

@@ -1,3 +1,7 @@
+lcd5110.h:39:20:LCD5110_refresh	16	static
+lcd5110.h:115:20:LCD5110_print	24	static
+lcd5110.c:27:19:LCD5110_max	16	static
+lcd5110.c:31:19:LCD5110_min	16	static
 lcd5110.c:60:6:LCD5110_wline	64	static
 lcd5110.c:97:6:LCD5110_wrect	48	static
 lcd5110.c:109:6:LCD5110_rect	24	static

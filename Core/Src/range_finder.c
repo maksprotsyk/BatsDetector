@@ -27,8 +27,16 @@ int impulse_time(TIM_HandleTypeDef* timer){
     return get_timer(timer);
 }
 
+float distance_with_time(int time){
+	return (340. / 20000.) * time;
+}
+
 float calculate_distance(TIM_HandleTypeDef* timer){
-	return (340. / 20000.) * impulse_time(timer);
+	int time = impulse_time(timer);
+	if (time == -1){
+		return -1;
+	}
+	return distance_with_time(time);
 }
 
 
@@ -44,3 +52,4 @@ _Bool check_ultrasound(int impulse, TIM_HandleTypeDef* timer){
 
 	return obstacle;
 }
+
