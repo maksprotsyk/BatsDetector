@@ -25,6 +25,20 @@
 #define LED_Port GPIOD
 #define Blue_Pin GPIO_PIN_15
 
+#define CE_Port GPIOC
+#define CE_Pin GPIO_PIN_13
+#define RST_Port GPIOC
+#define RST_Pin GPIO_PIN_15
+#define DC_Port GPIOC
+#define DC_Pin GPIO_PIN_14
+#define DIN_Port GPIOC
+#define DIN_Pin GPIO_PIN_3
+#define CLK_Port GPIOB
+#define CLK_Pin GPIO_PIN_10
+
+#define Button_Port GPIOA
+#define Button_Pin GPIO_PIN_0
+
 
 
 

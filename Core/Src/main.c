@@ -47,6 +47,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+SPI_HandleTypeDef hspi2;
+
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
@@ -57,13 +59,14 @@ TIM_HandleTypeDef htim1;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM1_Init(void);
+static void MX_SPI2_Init(void);
 /* USER CODE BEGIN PFP */
 extern void initialise_monitor_handles();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+//LCD5110_display lcd1;
 /* USER CODE END 0 */
 
 /**
@@ -73,6 +76,7 @@ extern void initialise_monitor_handles();
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+
 
 
   /* USER CODE END 1 */
@@ -96,31 +100,30 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM1_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start(&htim1);
+  float impulse = impulse_time(&htim1);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  //int impulse = impulse_time(&htim1);
-  //HAL_Delay(1000);
-  int impulse = impulse_time(&htim1);
   while (1)
   {
-
-	if (check_ultrasound(impulse, &htim1)){
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-		HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	 //while (HAL_GPIO_ReadPin(RangePort, EchoPin) == GPIO_PIN_SET){
-	//	 HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-	//	 HAL_Delay(1000);
-	//	 HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+	if (check_ultrasound(impulse, &htim1)){
+		HAL_GPIO_WritePin(LED_Port, Blue_Pin, GPIO_PIN_SET);
+		HAL_Delay(100);
+	}
+	if (HAL_GPIO_ReadPin(Button_Port, Button_Pin) == GPIO_PIN_SET){
+		HAL_Delay(200);
+		impulse = impulse_time(&htim1);
+	}
+	HAL_GPIO_WritePin(LED_Port, Blue_Pin, GPIO_PIN_RESET);
 
 
   }
@@ -169,6 +172,44 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief SPI2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI2_Init(void)
+{
+
+  /* USER CODE BEGIN SPI2_Init 0 */
+
+  /* USER CODE END SPI2_Init 0 */
+
+  /* USER CODE BEGIN SPI2_Init 1 */
+
+  /* USER CODE END SPI2_Init 1 */
+  /* SPI2 parameter configuration*/
+  hspi2.Instance = SPI2;
+  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI2_Init 2 */
+
+  /* USER CODE END SPI2_Init 2 */
+
 }
 
 /**
@@ -227,20 +268,26 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOE_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(Trig_GPIO_Port, Trig_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, CE_Pin|DC_Pin|RST_Pin|DIN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, D4_Pin|D5_Pin|D6_Pin|D7_Pin
-                          |LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, Trig_Pin|CLK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, RS_Pin|E_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : CE_Pin DC_Pin RST_Pin DIN_Pin */
+  GPIO_InitStruct.Pin = CE_Pin|DC_Pin|RST_Pin|DIN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Button1_Pin */
   GPIO_InitStruct.Pin = Button1_Pin;
@@ -248,12 +295,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Button1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : Trig_Pin */
-  GPIO_InitStruct.Pin = Trig_Pin;
+  /*Configure GPIO pins : Trig_Pin CLK_Pin */
+  GPIO_InitStruct.Pin = Trig_Pin|CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(Trig_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Echo_Pin */
   GPIO_InitStruct.Pin = Echo_Pin;
@@ -261,29 +308,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Echo_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : CLK_IN_Pin */
-  GPIO_InitStruct.Pin = CLK_IN_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
-  HAL_GPIO_Init(CLK_IN_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : D4_Pin D5_Pin D6_Pin D7_Pin
-                           LD4_Pin LD3_Pin LD5_Pin LD6_Pin */
-  GPIO_InitStruct.Pin = D4_Pin|D5_Pin|D6_Pin|D7_Pin
-                          |LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin;
+  /*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin */
+  GPIO_InitStruct.Pin = LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : RS_Pin E_Pin */
-  GPIO_InitStruct.Pin = RS_Pin|E_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
 }
 

@@ -1,0 +1,3 @@
+range_finder.c:9:5:impulse_time	24	static
+range_finder.c:30:7:calculate_distance	24	static
+range_finder.c:35:7:check_ultrasound	24	static
