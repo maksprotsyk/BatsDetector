@@ -145,6 +145,7 @@ int main(void)
 	char info_title[TITLE_SIZE];
 
 	float32_t magnitude;
+	float32_t intensity;
 	uint32_t index;
 	float32_t frequency;
 	uint16_t prev;
@@ -195,13 +196,12 @@ int main(void)
 
   create_header(&wav_file, FREQUENCY, TIME, 4);
   raw_data_file.title = "raw_data.wav";
+  main_screen_init();
 
-
-
-/*
-	main_screen_init();
   println("DEVICE IS\n READY!");
-*/
+  HAL_Delay(1000);
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -214,10 +214,9 @@ int main(void)
     /* USER CODE BEGIN 3 */
     switch(state) {
     case MOUNTING:
-    	//HAL_GPIO_TogglePin(LD6_GPIO_Port, LD6_Pin);
-    	//clear_print("MOUNTING USB\n FLASHDRIVE...");
+    	clear_print("MOUNTING USB\n FLASHDRIVE...");
     	send_signal(f_mount(&flashdrive, USBHPath, 1));
-    	//println("MOUNTED");
+    	println("MOUNTED");
     	HAL_Delay(1000);
 
     	state = MOUNTED;
@@ -227,6 +226,7 @@ int main(void)
     	// creates file for saving samples
     	HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
     	create_file(&raw_data_file);
+    	clear_print("RECOR...");
     	state = RECORDING;
     	break;
 
@@ -247,9 +247,7 @@ int main(void)
     	// closing file to save it
     	close_file(&raw_data_file);
     	state = PROCESSING;
-    	//clear_print("RECORDED TO");
-    	//println(title);
-    	//println("WAITING FOR\n COMMANDS");
+    	clear_print("PROCESSING\nDATA...");
     	break;
 
     case PROCESSING:
@@ -284,7 +282,9 @@ int main(void)
     		else {
     			to_read = written;
     		}
+
     		written -= to_read;
+
 
     		// reading data and filtering it with linear filter for
     		// calculating frequencies
@@ -297,19 +297,19 @@ int main(void)
     		write_little_endian_data(&wav_file, Read_Buffer, to_read);
 
     		// performing FFT and calculating main frequency
-    		// for data filtered with linear filter
+    		// and intensity for data filtered with linear filter
     		perform_fft(Temporary_Buffer, 0, FFT_Buffer);
     		calculate_magnitudes(FFT_Buffer, &magnitude, &index);
     		frequency = get_frequency(index, FREQUENCY);
+    		intensity = get_intensity(magnitude);
+
+    		// writing information to file
+    		write_str(&info_file, "Frequency: ", 11);
     		write_array(&info_file, &frequency, 1);
+    		write_str(&info_file, "Intensity: ", 11);
+    		write_array(&info_file, &intensity, 1);
+    		write_str(&info_file, "\n", 1);
 
-    		if (written == 0) {
-    			break;
-    		}
-
-    		if (prev == 0) {
-    			write_array(&info_file, FFT_Buffer, FFT_BUFFER_SIZE);
-    		}
 
     		// setting prev variable for next linear filter
     		// cycle
@@ -321,6 +321,12 @@ int main(void)
     	close_file(&raw_data_file);
     	close_file(&wav_file);
     	close_file(&info_file);
+
+    	clear_print("WRITTEN TO");
+    	println(title);
+    	println("and");
+    	println(info_title);
+    	println("WAITING...");
 
     	HAL_GPIO_TogglePin(LD6_GPIO_Port, LD6_Pin);
     	HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);

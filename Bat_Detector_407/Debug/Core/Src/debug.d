@@ -50,7 +50,12 @@ Core/Src/debug.o: ../Core/Src/debug.c ../Core/Inc/debug.h \
  ../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc/usbh_msc_scsi.h \
  ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
- ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/usbh_diskio.h
+ ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/usbh_diskio.h \
+ ../Core/Inc/screen.h \
+ /Users/mprotsyk/UCU/POC/project_new/Bat_Detector_407/LCD5110/Inc/lcd5110.h \
+ /Users/mprotsyk/UCU/POC/project_new/Bat_Detector_407/LCD5110/Inc/lcd5110_ll.h \
+ ../Core/Inc/spi.h ../Core/Inc/gpio.h \
+ /Users/mprotsyk/UCU/POC/project_new/Bat_Detector_407/LCD5110/Inc/lcd5110_hal.h
 
 ../Core/Inc/debug.h:
 
@@ -165,3 +170,15 @@ Core/Src/debug.o: ../Core/Src/debug.c ../Core/Inc/debug.h \
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 
 ../FATFS/Target/usbh_diskio.h:
+
+../Core/Inc/screen.h:
+
+/Users/mprotsyk/UCU/POC/project_new/Bat_Detector_407/LCD5110/Inc/lcd5110.h:
+
+/Users/mprotsyk/UCU/POC/project_new/Bat_Detector_407/LCD5110/Inc/lcd5110_ll.h:
+
+../Core/Inc/spi.h:
+
+../Core/Inc/gpio.h:
+
+/Users/mprotsyk/UCU/POC/project_new/Bat_Detector_407/LCD5110/Inc/lcd5110_hal.h:

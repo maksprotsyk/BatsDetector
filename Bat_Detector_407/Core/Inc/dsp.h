@@ -11,6 +11,7 @@
 #include "arm_math.h"
 #include "arm_const_structs.h"
 #include "main.h"
+#include<math.h>
 
 // number of samples for fast Fourier transformation model
 #define FFT_SIZE 512
@@ -26,6 +27,8 @@
 
 // Number which shows that the current signal was sent first
 #define FIRST_SIGNAL 0
+
+#define MAX_VOLTAGE 4096
 
 
 float32_t FILTER_COEFFICIENTS[COEFFICIENTS] = {
@@ -93,6 +96,16 @@ void fir_filter(uint16_t* buffer);
 // size - size of buffer array (as well as result)
 // prev - last got filtered value (if == FIRST_SIGNAL, is not used)
 void linear_filter(uint16_t* buffer, uint16_t prev, uint16_t size, uint16_t* result);
+
+// gets intensity of voltage
+float32_t get_intensity(float32_t magnitude);
+
+
+
+
+float32_t get_intensity(float32_t magnitude) {
+	return 20 * log10(magnitude / (FFT_SIZE * MAX_VOLTAGE));
+}
 
 
 
