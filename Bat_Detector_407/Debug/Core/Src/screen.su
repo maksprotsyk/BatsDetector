@@ -1,0 +1,3 @@
+screen.c:12:6:main_screen_init	24	static
+screen.c:26:6:println	16	static
+screen.c:30:6:clear_print	16	static

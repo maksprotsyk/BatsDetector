@@ -1,0 +1,12 @@
+usbh_msc.c:147:27:USBH_MSC_InterfaceInit	48	static
+usbh_msc.c:231:27:USBH_MSC_InterfaceDeInit	24	static
+usbh_msc.c:265:27:USBH_MSC_ClassRequest	24	static
+usbh_msc.c:321:27:USBH_MSC_Process	32	static
+usbh_msc.c:531:27:USBH_MSC_SOFProcess	16	static
+usbh_msc.c:545:27:USBH_MSC_RdWrProcess	40	static
+usbh_msc.c:666:10:USBH_MSC_IsReady	24	static
+usbh_msc.c:689:10:USBH_MSC_GetMaxLUN	24	static
+usbh_msc.c:708:10:USBH_MSC_UnitIsReady	24	static
+usbh_msc.c:732:20:USBH_MSC_GetLUNInfo	32	static
+usbh_msc.c:756:20:USBH_MSC_Read	40	static
+usbh_msc.c:803:20:USBH_MSC_Write	40	static
