@@ -1,0 +1,13 @@
+files.c:11:10:reverse_bytes	0	static
+files.c:16:9:get_byte	0	static
+files.c:21:6:create_header	80	static
+files.c:62:6:create_file	8	static
+files.c:70:6:write_header	16	static
+files.c:83:6:write_data	16	static
+files.c:96:6:write_little_endian_data	8208	static
+files.c:106:6:close_file	8	static
+files.c:111:6:read_file	8	static
+files.c:121:6:write_str	16	static
+files.c:133:6:write_array	32	static
+files.c:154:6:read_buffer	16	static
+files.c:167:6:generate_title	32	static

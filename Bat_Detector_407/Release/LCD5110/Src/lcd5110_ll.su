@@ -1,0 +1,8 @@
+lcd5110_ll.c:42:20:LCD5110_DC_off	0	static
+lcd5110_ll.c:38:20:LCD5110_DC_on	0	static
+lcd5110_ll.c:16:33:send_byte_to_LCD5110.isra.1	16	static
+lcd5110_ll.c:103:5:LCD5110_set_mode	16	static
+lcd5110_ll.c:142:5:LCD5110_set_temp_coef	16	static
+lcd5110_ll.c:166:5:LCD5110_set_bias	16	static
+lcd5110_ll.c:224:5:LCD5110_init	32	static
+lcd5110_ll.c:260:6:LCD5110_refresh_ll	8	static

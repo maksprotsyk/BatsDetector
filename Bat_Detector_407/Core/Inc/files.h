@@ -1,16 +1,10 @@
-/*
- * files.h
- *
- *  Created on: Jan 16, 2021
- *      Author: mprotsyk
- */
-
 #ifndef INC_FILES_H_
 #define INC_FILES_H_
 
 #include "fatfs.h"
 #include "debug.h"
 #include "main.h"
+#include "rtc.h"
 #include "arm_math.h"
 
 // wav file header size
@@ -263,7 +257,6 @@ void generate_title(char* title , const char* template, uint16_t title_size) {
            	 current_time.Minutes, current_time.Seconds);
 	HAL_RTC_GetDate(&hrtc, &current_date, RTC_FORMAT_BIN);
 }
-
 
 
 #endif /* INC_FILES_H_ */

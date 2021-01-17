@@ -31,7 +31,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "files.h"
+
 #include <string.h>
 #include "screen.h"
 #include "debug.h"
@@ -40,6 +40,8 @@
 #include "arm_const_structs.h"
 
 #include "dsp.h"
+
+#include "files.h"
 
 /* USER CODE END Includes */
 
@@ -113,7 +115,7 @@ void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
 
-//writes buffer data to specific file starting from specific index
+// writes buffer data to specific file starting from specific index
 // (adds number of written samples from "written")
 void write_buffer(
 		usb_file_t* usb_file, uint16_t* buffer,
